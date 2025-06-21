@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard Solutions | Elite Penetration Testing & AI-Powered Security</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for Animated Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Post-processing for Bloom and Glitch Effects -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050a0f; /* Darker blue-black */
+        }
+        /* A subtle background pattern to add a techy feel */
+        .tech-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 20px 20px;
+        }
+        /* Ensure canvas is behind content */
+        #bg-canvas {
+            position: fixed; /* Changed to fixed for full-page background */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place behind all content */
+        }
+        /* Scroll Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-gray-300 antialiased">
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header & Navigation -->
+    <header class="bg-slate-900/50 backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-emerald-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                CyberGuard
+            </a>
+            <div id="nav-menu" class="hidden md:flex items-center space-x-8">
+                <a href="#services" class="hover:text-emerald-400 transition-colors duration-300">Services</a>
+                <a href="#newsletter" class="hover:text-emerald-400 transition-colors duration-300">News</a>
+                <a href="#methodology" class="hover:text-emerald-400 transition-colors duration-300">Methodology</a>
+                <a href="#why-us" class="hover:text-emerald-400 transition-colors duration-300">Why Us</a>
+                <a href="#founder" class="hover:text-emerald-400 transition-colors duration-300">Founder</a>
+                <a href="#contact" class="hover:text-emerald-400 transition-colors duration-300">Contact</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-block bg-emerald-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-emerald-700 transition-all duration-300 shadow-lg">
+                Get a Free Consultation
+            </a>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </nav>
+         <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800">
+            <a href="#services" class="block py-2 px-4 text-sm hover:bg-slate-700">Services</a>
+            <a href="#newsletter" class="block py-2 px-4 text-sm hover:bg-slate-700">News</a>
+            <a href="#methodology" class="block py-2 px-4 text-sm hover:bg-slate-700">Methodology</a>
+            <a href="#why-us" class="block py-2 px-4 text-sm hover:bg-slate-700">Why Us</a>
+            <a href="#founder" class="block py-2 px-4 text-sm hover:bg-slate-700">Founder</a>
+            <a href="#contact" class="block py-2 px-4 text-sm hover:bg-slate-700">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative py-20 md:py-32 overflow-hidden h-screen flex items-center justify-center">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                    Outsmarting Tomorrow's Threats, Today
+                </h1>
+                <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-slate-300">
+                    We don't just find vulnerabilities; we neutralize threats before they materialize. Our AI-driven platform provides predictive, actionable intelligence, turning your security posture into a decisive business asset.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="bg-emerald-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-emerald-700 transition-transform duration-300 hover:scale-105 shadow-xl">
+                        Secure a Consultation
+                    </a>
+                    <a href="#services" class="bg-slate-700 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition-transform duration-300 hover:scale-105 shadow-xl">
+                        Explore Our Services
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Our Core Security Services</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-400">We provide a comprehensive suite of services to test and secure your most critical assets.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Cards -->
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-2 transition-all duration-300 fade-in-up">
+                        <div class="bg-emerald-500/10 text-emerald-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 13.5-3 3-3-3"></path><path d="M20 10.5v7c0 1.1-.9 2-2 2h-12a2 2 0 0 1-2-2v-7"></path><path d="M20 10.5V7a2 2 0 0 0-2-2h-12a2 2 0 0 0-2 2v3.5"></path><path d="M10 17h4"></path><path d="M8 3v4"></path><path d="M16 3v4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Web Application Pentesting</h3>
+                        <p class="text-slate-400">In-depth testing of your web apps for vulnerabilities like XSS, SQLi, and business logic flaws.</p>
+                    </div>
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-2 transition-all duration-300 fade-in-up" style="transition-delay: 150ms;">
+                         <div class="bg-emerald-500/10 text-emerald-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"></rect><rect x="2" y="16" width="6" height="6" rx="1"></rect><rect x="9" y="2" width="6" height="6" rx="1"></rect><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path><path d="M12 12V8"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Network Pentesting</h3>
+                        <p class="text-slate-400">Simulate real-world attacks on your internal and external networks to find exploitable weaknesses.</p>
+                    </div>
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-2 transition-all duration-300 fade-in-up" style="transition-delay: 300ms;">
+                        <div class="bg-emerald-500/10 text-emerald-400 rounded-lg w-12 h-12 flex items-center justify-center mb-6">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Mobile App Pentesting</h3>
+                        <p class="text-slate-400">Comprehensive security analysis of your iOS and Android applications to protect user data.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section id="newsletter" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Latest AI & Cyber News</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-400">Stay informed with the latest trends, threats, and breakthroughs at the intersection of AI and cybersecurity.</p>
+                </div>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- News Item 1 -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-lg flex flex-col fade-in-up">
+                        <p class="text-sm text-slate-500 mb-2">June 20, 2025</p>
+                        <h3 class="text-xl font-bold text-white mb-3">CISO Outlook 2025: AI, Domain Threats, and Compliance Risks</h3>
+                        <p class="text-slate-400 flex-grow">A new report surveying 300 CISOs reveals that AI-powered attacks are significantly increasing threat levels, with leaders expecting challenges in domain security and regulatory compliance to intensify.</p>
+                        <a href="https://natlawreview.com/article/cisos-take-look-cscs-ciso-outlook-2025-report" target="_blank" class="mt-4 text-emerald-400 font-semibold hover:text-emerald-300 self-start">Read More &rarr;</a>
+                    </div>
+                    <!-- News Item 2 -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-lg flex flex-col fade-in-up" style="transition-delay: 150ms;">
+                        <p class="text-sm text-slate-500 mb-2">June 20, 2025</p>
+                        <h3 class="text-xl font-bold text-white mb-3">Record-Breaking 7.3 Tbps DDoS Attack Hits Hosting Provider</h3>
+                        <p class="text-slate-400 flex-grow">A massive DDoS attack highlights the escalating scale of cyber threats, pushing infrastructure to its limits and demonstrating the need for resilient, AI-driven defensive systems.</p>
+                        <a href="https://cybersecuritynews.com/" target="_blank" class="mt-4 text-emerald-400 font-semibold hover:text-emerald-300 self-start">Read More &rarr;</a>
+                    </div>
+                    <!-- News Item 3 -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-lg flex flex-col fade-in-up">
+                        <p class="text-sm text-slate-500 mb-2">June 19, 2025</p>
+                        <h3 class="text-xl font-bold text-white mb-3">Russian Hackers Exploit Gmail Feature to Bypass Multi-Factor Authentication</h3>
+                        <p class="text-slate-400 flex-grow">A novel social engineering campaign sees threat actors tricking users into generating "app-specific passwords," allowing them to bypass 2FA and gain unauthorized access to email accounts.</p>
+                        <a href="https://thehackernews.com/" target="_blank" class="mt-4 text-emerald-400 font-semibold hover:text-emerald-300 self-start">Read More &rarr;</a>
+                    </div>
+                    <!-- News Item 4 -->
+                    <div class="bg-slate-800 p-6 rounded-xl shadow-lg flex flex-col fade-in-up" style="transition-delay: 150ms;">
+                        <p class="text-sm text-slate-500 mb-2">June 18, 2025</p>
+                        <h3 class="text-xl font-bold text-white mb-3">AI Agents: The New Frontier of Cybercrime Business Must Confront</h3>
+                        <p class="text-slate-400 flex-grow">The World Economic Forum warns that attackers are now using AI agents—autonomous digital entities that can learn and adapt—to accelerate attacks beyond the speed of human-led defenses.</p>
+                        <a href="https://www.weforum.org/stories/2025/06/ai-agent-cybercrime-business/" target="_blank" class="mt-4 text-emerald-400 font-semibold hover:text-emerald-300 self-start">Read More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section id="methodology" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Our Proven Pentesting Methodology</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-slate-400">We follow a structured, multi-phased approach to ensure thorough and impactful testing.</p>
+                </div>
+                <div class="relative">
+                    <!-- The connecting line -->
+                    <div class="hidden md:block absolute top-5 left-1/2 w-0.5 h-full bg-slate-700 -translate-x-1/2"></div>
+                    
+                    <!-- Steps -->
+                    <div class="md:flex items-center md:justify-end mb-12 fade-in-up">
+                        <div class="md:w-5/12 md:text-right md:pr-12">
+                            <p class="text-emerald-400 font-semibold">Phase 1</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Scoping & Planning</h3>
+                            <p class="text-slate-400 mt-2">Collaborating with you to define test objectives, scope, and rules of engagement for a successful partnership.</p>
+                        </div>
+                        <div class="relative md:w-1/12 flex-shrink-0">
+                             <div class="w-8 h-8 bg-emerald-600 rounded-full mx-auto flex items-center justify-center text-white font-bold ring-8 ring-slate-900">1</div>
+                        </div>
+                        <div class="md:w-5/12"></div>
+                    </div>
+                    <div class="md:flex items-center mb-12 fade-in-up">
+                        <div class="md:w-5/12"></div>
+                        <div class="relative md:w-1/12 flex-shrink-0">
+                            <div class="w-8 h-8 bg-emerald-600 rounded-full mx-auto flex items-center justify-center text-white font-bold ring-8 ring-slate-900">2</div>
+                        </div>
+                        <div class="md:w-5/12 md:pl-12">
+                            <p class="text-emerald-400 font-semibold">Phase 2</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Reconnaissance & Discovery</h3>
+                            <p class="text-slate-400 mt-2">Utilizing advanced tools and manual techniques to map your attack surface and identify potential entry points.</p>
+                        </div>
+                    </div>
+                    <div class="md:flex items-center md:justify-end mb-12 fade-in-up">
+                        <div class="md:w-5/12 md:text-right md:pr-12">
+                            <p class="text-emerald-400 font-semibold">Phase 3</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Vulnerability Exploitation</h3>
+                            <p class="text-slate-400 mt-2">Safely exploiting identified vulnerabilities to determine the real-world risk and potential impact on your business.</p>
+                        </div>
+                        <div class="relative md:w-1/12 flex-shrink-0">
+                             <div class="w-8 h-8 bg-emerald-600 rounded-full mx-auto flex items-center justify-center text-white font-bold ring-8 ring-slate-900">3</div>
+                        </div>
+                        <div class="md:w-5/12"></div>
+                    </div>
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-5/12"></div>
+                         <div class="relative md:w-1/12 flex-shrink-0">
+                            <div class="w-8 h-8 bg-emerald-600 rounded-full mx-auto flex items-center justify-center text-white font-bold ring-8 ring-slate-900">4</div>
+                        </div>
+                        <div class="md:w-5/12 md:pl-12">
+                            <p class="text-emerald-400 font-semibold">Phase 4</p>
+                            <h3 class="text-2xl font-bold text-white mt-1">Reporting & Remediation</h3>
+                            <p class="text-slate-400 mt-2">Delivering a comprehensive report with actionable, prioritized remediation steps and strategic guidance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Why Us Section -->
+        <section id="why-us" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6">
+                <div class="lg:flex lg:items-center lg:gap-12 fade-in-up">
+                    <div class="lg:w-1/2">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">The CyberGuard Advantage</h2>
+                        <p class="mt-4 text-slate-400">We're more than just testers. We are your dedicated security partners, committed to enhancing your defensive posture for the long term.</p>
+                        <ul class="mt-8 space-y-6">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Actionable Reporting</h4>
+                                    <p class="text-slate-400 mt-1">No fluff or jargon. Our reports are clear, concise, and focused on providing practical steps to fix vulnerabilities.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Expert-Led Teams</h4>
+                                    <p class="text-slate-400 mt-1">Our testers are certified professionals with years of experience breaking into systems—so you don't have to worry about who is.</p>
+                                </div>
+                            </li>
+                             <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-6 h-6 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-semibold text-white">Continuous Partnership</h4>
+                                    <p class="text-slate-400 mt-1">We offer re-testing and consultation after the engagement to ensure your fixes are effective and your security is sound.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                     <div class="lg:w-1/2 mt-10 lg:mt-0">
+                        <img src="https://images.unsplash.com/photo-1550751827-4138d04d475d?q=80&w=2070&auto=format&fit=crop" 
+                             alt="Cybersecurity professionals collaborating in a dark server room" 
+                             class="rounded-xl shadow-2xl w-full h-auto object-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/600x500/1e293b/ffffff?text=CyberGuard+Team';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founder Section -->
+        <section id="founder" class="py-20 bg-slate-900/90">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">From the Founder</h2>
+                </div>
+                <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-slate-800/50 p-8 rounded-xl fade-in-up">
+                    <div class="md:w-1/3 flex-shrink-0">
+                        <img src="https://i.imgur.com/dR9W8OP.png" 
+                             alt="Mongwoiching, Founder and CTO" 
+                             class="rounded-full w-48 h-48 md:w-64 md:h-64 mx-auto object-cover border-4 border-emerald-500 shadow-2xl">
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h3 class="text-2xl md:text-3xl font-bold text-white">Mongwoiching</h3>
+                        <p class="text-lg text-emerald-400 font-semibold mt-1">Founder & CTO, CyberGuard</p>
+                        <p class="text-slate-300 mt-4 text-lg italic">
+                           “From a remote village with no internet to the front lines of digital defense, my journey has been one of bridging gaps. For me, cybersecurity is not just a profession—it's a mission to protect the vulnerable and ensure that as technology connects us all, no one is left behind unprotected.”
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Sections -->
+        <section id="legal" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6 max-w-4xl text-slate-300 fade-in-up">
+                <div id="privacy" class="mb-16">
+                    <h2 class="text-3xl font-bold text-white mb-8">Privacy Policy</h2>
+                    <div class="space-y-6">
+                        <p>Last updated: June 21, 2025</p>
+                        <p>CyberGuard Solutions ("us", "we", or "our") operates the https://cyberguardsolutions.com website (the "Service").</p>
+                        <p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy.</p>
+                        
+                        <h3 class="text-xl font-semibold text-white pt-4">Information Collection and Use</h3>
+                        <p>We collect several different types of information for various purposes to provide and improve our Service to you.</p>
+                        
+                        <h3 class="text-xl font-semibold text-white pt-4">Use of Data</h3>
+                        <p>CyberGuard Solutions uses the collected data for various purposes: to provide and maintain the Service; to notify you about changes to our Service; to allow you to participate in interactive features of our Service when you choose to do so; to provide customer care and support; to provide analysis or valuable information so that we can improve the Service; to monitor the usage of the Service; to detect, prevent and address technical issues.</p>
+                        
+                        <h3 class="text-xl font-semibold text-white pt-4">Security of Data</h3>
+                        <p>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
+                    </div>
+                </div>
+                <div id="terms">
+                    <h2 class="text-3xl font-bold text-white mb-8">Terms of Service</h2>
+                    <div class="space-y-6">
+                        <p>Last updated: June 21, 2025</p>
+                        <h3 class="text-xl font-semibold text-white pt-4">1. Agreement to Terms</h3>
+                        <p>By using our Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.</p>
+                        
+                        <h3 class="text-xl font-semibold text-white pt-4">2. Intellectual Property</h3>
+                        <p>The Service and its original content, features, and functionality are and will remain the exclusive property of CyberGuard Solutions and its licensors. The Service is protected by copyright, trademark, and other laws of both the and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of CyberGuard Solutions.</p>
+                        
+                        <h3 class="text-xl font-semibold text-white pt-4">3. Limitation of Liability</h3>
+                        <p>In no event shall CyberGuard Solutions, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact / CTA Section -->
+        <section id="contact" class="py-20 bg-slate-900/90 tech-pattern">
+            <div class="container mx-auto px-6 fade-in-up">
+                <div class="bg-emerald-700/50 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/50 rounded-full"></div>
+                    <div class="absolute -bottom-12 -right-4 w-40 h-40 bg-emerald-500/50 rounded-full"></div>
+                    <div class="relative">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white">Ready to Secure Your Assets?</h2>
+                        <p class="mt-4 max-w-2xl mx-auto text-emerald-200">
+                            Don't wait for a breach to find your weak spots. Let's work together to build a more resilient security posture.
+                        </p>
+                         <a href="mailto:consult@cyberguardsolutions.com" class="mt-8 inline-block bg-white text-emerald-600 font-bold py-3 px-8 rounded-lg hover:bg-slate-200 transition-transform duration-300 hover:scale-105 shadow-xl">
+                            Schedule Your Consultation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About, Links, Legal, Contact -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                     <h4 class="text-xl font-bold text-white flex items-center">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-emerald-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                       CyberGuard
+                    </h4>
+                    <p class="mt-4 text-slate-400">Proactive security solutions to protect your business in a digital-first world.</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-white">Quick Links</h5>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#services" class="text-slate-400 hover:text-emerald-400">Services</a></li>
+                        <li><a href="#newsletter" class="text-slate-400 hover:text-emerald-400">News</a></li>
+                        <li><a href="#methodology" class="text-slate-400 hover:text-emerald-400">Methodology</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-semibold text-white">Legal</h5>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#privacy" class="text-slate-400 hover:text-emerald-400">Privacy Policy</a></li>
+                        <li><a href="#terms" class="text-slate-400 hover:text-emerald-400">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                     <h5 class="font-semibold text-white">Contact</h5>
+                    <ul class="mt-4 space-y-2">
+                        <li class="text-slate-400">consult@cyberguardsolutions.com</li>
+                        <li class="text-slate-400">+1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-slate-700 text-center text-slate-500 text-sm">
+                &copy; 2024 CyberGuard Solutions. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Defer all script execution until the DOM is fully loaded ---
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Hero Background Animation ---
+            function initHeroAnimation() {
+                 if (typeof THREE === 'undefined' || typeof THREE.EffectComposer === 'undefined') {
+                    console.error("Three.js or its effects are not loaded.");
+                    return;
+                }
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const canvas = document.getElementById('bg-canvas');
+                if (!canvas) {
+                    console.error("Canvas element #bg-canvas not found.");
+                    return;
+                }
+                const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+                
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                camera.position.z = 100;
+
+                // Post-processing
+                const composer = new THREE.EffectComposer(renderer);
+                composer.addPass(new THREE.RenderPass(scene, camera));
+                const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+                bloomPass.threshold = 0;
+                bloomPass.strength = 1.8;
+                bloomPass.radius = 0.8;
+                composer.addPass(bloomPass);
+
+                const group = new THREE.Group();
+                scene.add(group);
+
+                const nodes = [];
+                const nodeGeometry = new THREE.IcosahedronGeometry(0.8, 0);
+                const nodeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff88, wireframe: true, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending });
+                
+                for (let i = 0; i < 200; i++) {
+                    const mesh = new THREE.Mesh(nodeGeometry, nodeMaterial);
+                    mesh.position.set((Math.random() - 0.5) * 150, (Math.random() - 0.5) * 150, (Math.random() - 0.5) * 150);
+                    mesh.userData.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
+                    const scale = Math.random() * 1.5 + 0.5;
+                    mesh.scale.set(scale, scale, scale);
+                    mesh.userData.baseScale = scale;
+                    group.add(mesh);
+                    nodes.push(mesh);
+                }
+                
+                const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending, depthWrite: false });
+                const lineGeometry = new THREE.BufferGeometry();
+                const linePositions = new Float32Array(nodes.length * nodes.length * 3);
+                lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
+                const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+                group.add(lines);
+
+                const mouse = new THREE.Vector2(-200, -200);
+                window.addEventListener('mousemove', (event) => {
+                    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                });
+                
+                const clock = new THREE.Clock();
+
+                function animate() {
+                    const delta = clock.getDelta();
+                    let vertexPos = 0;
+                    const mouse3D = new THREE.Vector3(mouse.x * 100, mouse.y * 100, camera.position.z - 50);
+
+                    nodes.forEach((node, i) => {
+                        const distToMouse = node.position.distanceTo(mouse3D);
+                        if(distToMouse < 30) {
+                           node.userData.velocity.add(node.position.clone().sub(mouse3D).normalize().multiplyScalar(0.03));
+                           node.scale.setScalar(node.userData.baseScale * 2.0);
+                        } else {
+                           node.scale.lerp(new THREE.Vector3(node.userData.baseScale, node.userData.baseScale, node.userData.baseScale), 0.1);
+                        }
+
+                        node.userData.velocity.multiplyScalar(0.97);
+                        node.position.add(node.userData.velocity);
+                        
+                        if(Math.abs(node.position.x) > 100) node.userData.velocity.x *= -1;
+                        if(Math.abs(node.position.y) > 100) node.userData.velocity.y *= -1;
+                        if(Math.abs(node.position.z) > 100) node.userData.velocity.z *= -1;
+                        
+                        node.rotation.x += delta * 0.05;
+                        node.rotation.y += delta * 0.05;
+
+                        for(let j = i + 1; j < nodes.length; j++) {
+                            const node2 = nodes[j];
+                           if(node.position.distanceTo(node2.position) < 35) {
+                              linePositions[vertexPos++] = node.position.x;
+                              linePositions[vertexPos++] = node.position.y;
+                              linePositions[vertexPos++] = node.position.z;
+                              linePositions[vertexPos++] = node2.position.x;
+                              linePositions[vertexPos++] = node2.position.y;
+                              linePositions[vertexPos++] = node2.position.z;
+                           }
+                        }
+                    });
+
+                    lineGeometry.attributes.position.needsUpdate = true;
+                    lineGeometry.setDrawRange(0, vertexPos / 3);
+
+                    camera.position.x += (mouse.x * 10 - camera.position.x) * 0.02;
+                    camera.position.y += (-mouse.y * 10 - camera.position.y) * 0.02;
+                    camera.lookAt(scene.position);
+                    
+                    composer.render();
+                    requestAnimationFrame(animate);
+                }
+                
+                animate();
+            }
+            
+            initHeroAnimation();
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // --- Scroll Animations ---
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+</body>
+</html>
