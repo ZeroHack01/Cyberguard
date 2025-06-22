@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard Solutions | Advanced AI-Powered Defense</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Link to our new external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Three.js for Animated Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Post-processing for Bloom Effect -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+
+</head>
+<body class="antialiased">
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header & Navigation -->
+    <header class="bg-black/25 backdrop-blur-lg sticky top-0 z-50 border-b border-sky-400/20">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-sky-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                CyberGuard
+            </a>
+            <div id="nav-menu" class="hidden md:flex items-center space-x-8 text-slate-300">
+                <a href="#services" class="hover:text-sky-400 transition-colors duration-300">Services</a>
+                <a href="#why-us" class="hover:text-sky-400 transition-colors duration-300">Why Us</a>
+                <a href="#methodology" class="hover:text-sky-400 transition-colors duration-300">Methodology</a>
+                <a href="#founder" class="hover:text-sky-400 transition-colors duration-300">Founder</a>
+                <a href="#contact" class="hover:text-sky-400 transition-colors duration-300">Contact</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-block bg-sky-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-sky-600 transition-all duration-300 shadow-lg shadow-sky-500/20 neon-glow">
+                Request Briefing
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900/80 backdrop-blur-sm">
+            <a href="#services" class="block py-3 px-6 text-sm hover:bg-sky-500/20">Services</a>
+            <a href="#why-us" class="block py-3 px-6 text-sm hover:bg-sky-500/20">Why Us</a>
+            <a href="#methodology" class="block py-3 px-6 text-sm hover:bg-sky-500/20">Methodology</a>
+            <a href="#founder" class="block py-3 px-6 text-sm hover:bg-sky-500/20">Founder</a>
+            <a href="#contact" class="block py-3 px-6 text-sm hover:bg-sky-500/20">Contact</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+        <!-- Hero Section -->
+        <section class="relative hero-section py-20 md:py-32 h-screen flex items-center justify-center">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight" style="text-shadow: 0 0 25px rgba(14, 165, 233, 0.7);">
+                    Beyond Security. Into Certainty.
+                </h1>
+                <p class="mt-6 text-lg md:text-xl max-w-3xl mx-auto text-slate-300">
+                    In a world of constant digital threats, we provide more than just defense—we deliver peace of mind. Our mission is to transform your security from a source of anxiety into your greatest strength, so you can innovate, grow, and lead with confidence.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="bg-sky-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-sky-600 transition-transform duration-300 hover:scale-105 shadow-xl shadow-sky-500/30 neon-glow">
+                        Secure a Consultation
+                    </a>
+                    <a href="#services" class="bg-slate-700/50 border border-slate-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600/50 hover:border-sky-400 transition-all duration-300 hover:scale-105 shadow-xl">
+                        Explore Our Services
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="bg-slate-900/70 backdrop-blur-md">
+            <!-- All content sections will go here -->
+        </div>
+    </main>
+    
+    <!-- Link to our new external JS file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
